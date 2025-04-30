@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
+import ParkDetails from "./ParkDetails";
 
 const nationalParksData = {
   "Andaman and Nicobar Islands": [
@@ -37,17 +38,25 @@ const nationalParksData = {
   Sikkim: ["Khangchendzonga National Park"],
   Telangana: ["KBR National Park", "Mrugavani National Park"],
   Uttarakhand: ["Nanda Devi National Park", "Rajaji National Park"],
-  UttarPradesh:["Dudhwa National Park", "Kishanpur Wildlife Sanctuary", "Katarniaghat Wildlife Sanctuary",""],
+  UttarPradesh: [
+    "Dudhwa National Park",
+    "Kishanpur Wildlife Sanctuary",
+    "Katarniaghat Wildlife Sanctuary",
+  ],
   "West Bengal": [
     "Gorumara National Park",
     "Neora Valley National Park",
     "Singalila National Park",
   ],
-  
 };
 
 const NationalPark = () => {
   const [search, setSearch] = useState("");
+  const [selectedPark, setSelectedPark] = useState(null);
+
+  const handleParkClick = (parkName) => {
+    setSelectedPark(parkName);
+  };
 
   return (
     <div className="p-6 max-w-screen-lg mx-auto">
@@ -66,21 +75,35 @@ const NationalPark = () => {
         </div>
       </div>
 
-      <div className="overflow-y-auto max-h-[500px]"> {/* Scrollable area with max height */}
-        {Object.entries(nationalParksData).map(([state, parks], index) => (
-          <div key={index} className="bg-white dark:bg-gray-800 p-4">
-            <h3 className="text-xl font-semibold mb-2 text-green-600">{state}</h3>
-            <ul className="list-disc list-inside flex gap-5 space-y-1 text-gray-700 dark:text-gray-300">
-              {parks.map((park, idx) => (
-                <p className="cursor-pointer hover:text-blue-500" key={idx}>
-                  {park}
-                </p>
-              ))}
-            </ul>
-            <hr className="text-gray-300 my-3 border-t-2" />
-          </div>
-        ))}
-      </div>
+      {!selectedPark ? (
+        <div className="overflow-y-auto max-h-[500px]">
+          {Object.entries(nationalParksData).map(([state, parks], index) => (
+            <div key={index} className="bg-white dark:bg-gray-800 p-4">
+              <h3 className="text-xl font-semibold mb-2 text-green-600">
+                {state}
+              </h3>
+              <ul className="list-none flex gap-5 list-inside space-y-1 text-gray-700 dark:text-gray-300">
+                {parks
+                  .filter((park) =>
+                    park.toLowerCase().includes(search.toLowerCase())
+                  )
+                  .map((park, idx) => (
+                    <li
+                      key={idx}
+                      className="cursor-pointer hover:text-blue-500"
+                      onClick={() => handleParkClick(park)}
+                    >
+                      {park}
+                    </li>
+                  ))}
+              </ul>
+              <hr className="text-gray-300 my-3 border-t-2" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <ParkDetails selectedPark={selectedPark} goBack={() => setSelectedPark(null)} />
+      )}
     </div>
   );
 };
