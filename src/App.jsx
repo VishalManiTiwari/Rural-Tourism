@@ -7,6 +7,8 @@ import Destination from './components/Destination';
 import Home from './components/Home';
 import Footer from './components/Footer';
 import Region from './pages/Region';
+import Login from './components/Login';
+import Register from './components/Register';
 
 const App = () => {
   return (
@@ -18,8 +20,10 @@ const App = () => {
         <Route path="/destinations" element={<Destination />} />
         <Route path="/plan-trip" element={<PlanTrip />} />
         <Route path="/region" element={<Region />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </Router>
   );
 };

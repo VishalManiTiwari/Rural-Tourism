@@ -44,7 +44,9 @@ export default function Header() {
   return (
     <header
       className={`w-full fixed text-white top-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-gray-900 shadow-lg py-2" : " bg-gray-900 shadow-md py-3"
+        isScrolled
+          ? "bg-gray-900 shadow-lg py-2"
+          : " bg-gray-900 shadow-md py-3"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6">
@@ -117,10 +119,12 @@ export default function Header() {
 
             {/* Sign In Button */}
             <div className="hidden sm:block">
-              <button className="flex items-center space-x-1.5 bg-yellow-500 hover:bg-yellow-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition-colors duration-200">
-                <FaUser className="text-sm" />
-                <span>Sign In</span>
-              </button>
+              <Link to='/login'>
+                <button className="flex items-center space-x-1.5 bg-yellow-500 hover:bg-yellow-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition-colors duration-200">
+                  <FaUser className="text-sm" />
+                  <span>Sign In</span>
+                </button>
+              </Link>
             </div>
 
             {/* Mobile Sign In - icon only */}

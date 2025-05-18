@@ -75,36 +75,36 @@ const Treasure = () => {
         "https://s7ap1.scene7.com/is/image/incredibleindia/namdapha-national-park-rural-wonders?qlt=82&ts=1726642216133",
     },
     {
-      id: 9,
-      name: "",
-      state: "Arunachal Pradesh",
-      description: "Serene himalayan sanctuary",
+      id: 10,
+      name: "Tripura",
+      state: "Bashgram",
+      description: "The bamboo haven",
       image:
-        "https://s7ap1.scene7.com/is/image/incredibleindia/namdapha-national-park-rural-wonders?qlt=82&ts=1726642216133",
+        "https://s7ap1.scene7.com/is/image/incredibleindia/rabindra-dance-3-rural-hero?qlt=82&ts=1726641826392",
     },
     {
-      id: 9,
-      name: "Manyuliang",
+      id: 11,
+      name: "Shergaon",
       state: "Arunachal Pradesh",
-      description: "Serene himalayan sanctuary",
+      description: "The tranquil Himalayan retreat",
       image:
-        "https://s7ap1.scene7.com/is/image/incredibleindia/namdapha-national-park-rural-wonders?qlt=82&ts=1726642216133",
+        "https://s7ap1.scene7.com/is/image/incredibleindia/shergaon-bridges-arunachal-pradesh-rural-hero?qlt=82&ts=1726642157444",
     },
     {
-      id: 9,
-      name: "Manyuliang",
-      state: "Arunachal Pradesh",
-      description: "Serene himalayan sanctuary",
+      id: 12,
+      name: "Chhoti Haldwani",
+      state: "Uttarakhand",
+      description: "The village that Corbett built",
       image:
-        "https://s7ap1.scene7.com/is/image/incredibleindia/namdapha-national-park-rural-wonders?qlt=82&ts=1726642216133",
+        "https://s7ap1.scene7.com/is/image/incredibleindia/jim-corbett-village-rural-hero?qlt=82&ts=1726642070737",
     },
     {
-      id: 9,
-      name: "Manyuliang",
-      state: "Arunachal Pradesh",
-      description: "Serene himalayan sanctuary",
+      id: 13,
+      name: "Kalpeni Island",
+      state: "Lakshadweep",
+      description: "A coral paradise awaits!",
       image:
-        "https://s7ap1.scene7.com/is/image/incredibleindia/namdapha-national-park-rural-wonders?qlt=82&ts=1726642216133",
+        "https://s7ap1.scene7.com/is/image/incredibleindia/kavaratti-island-rural-hero?qlt=82&ts=1726642009760",
     },
   ];
 
