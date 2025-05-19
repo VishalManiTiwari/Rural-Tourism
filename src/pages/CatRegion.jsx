@@ -9,13 +9,13 @@ const CatRegion = () => {
 
   const toggleRegion = () => {
     setIsRegionOpen((prev) => !prev);
-    if (isCategoryOpen) setIsCategoryOpen(false); // Close other if open
+    if (isCategoryOpen) setIsCategoryOpen(false);
   };
 
   const toggleCategory = () => {
     setIsCategoryOpen((prev) => !prev);
-    if (isRegionOpen) setIsRegionOpen(false); // Close other if open
-  };
+  };    if (isRegionOpen) setIsRegionOpen(false);
+
 
   return (
     <div className="flex flex-col items-center my-6 px-4 gap-6">

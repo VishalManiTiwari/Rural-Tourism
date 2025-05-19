@@ -1,11 +1,23 @@
-import { FaSearch, FaUser, FaBars, FaTimes } from "react-icons/fa";
+import { FaSearch, FaUser, FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  // Check auth state
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsLoggedIn(!!user);
+    });
+    return unsubscribe;
+  }, []);
 
   // Track scroll position for header styling
   useEffect(() => {
@@ -39,6 +51,16 @@ export default function Header() {
   const toggleSearch = () => {
     setSearchOpen(!searchOpen);
     if (mobileMenuOpen) setMobileMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/');
+      setMobileMenuOpen(false);
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
   };
 
   return (
@@ -117,21 +139,45 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Sign In Button */}
+            {/* Auth Button - changes based on login state */}
             <div className="hidden sm:block">
-              <Link to='/login'>
-                <button className="flex items-center space-x-1.5 bg-yellow-500 hover:bg-yellow-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition-colors duration-200">
-                  <FaUser className="text-sm" />
-                  <span>Sign In</span>
+              {isLoggedIn ? (
+                <button 
+                  onClick={handleLogout}
+                  className="flex items-center space-x-1.5 bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition-colors duration-200"
+                >
+                  <FaSignOutAlt className="text-sm" />
+                  <span className="cursor-pointer">Logout</span>
                 </button>
-              </Link>
+              ) : (
+                <Link to='/login'>
+                  <button className="flex items-center space-x-1.5 bg-yellow-500 hover:bg-yellow-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition-colors duration-200">
+                    <FaUser className="text-sm" />
+                    <span className="cursor-pointer">Sign In</span>
+                  </button>
+                </Link>
+              )}
             </div>
 
-            {/* Mobile Sign In - icon only */}
-            <button className="sm:hidden p-2 rounded-full hover:bg-gray-700 transition-colors">
-              <FaUser className="text-xl" />
-              <span className="sr-only">Sign In</span>
-            </button>
+            {/* Mobile Auth - icon only */}
+            <div className="sm:hidden">
+              {isLoggedIn ? (
+                <button 
+                  onClick={handleLogout}
+                  className="p-2 rounded-full hover:bg-gray-700 transition-colors"
+                >
+                  <FaSignOutAlt className="text-xl" />
+                  <span className="sr-only cursor-pointer">Logout</span>
+                </button>
+              ) : (
+                <Link to='/login'>
+                  <button className="p-2 rounded-full hover:bg-gray-700 transition-colors">
+                    <FaUser className="text-xl" />
+                    <span className="sr-only cursor-pointer">Sign In</span>
+                  </button>
+                </Link>
+              )}
+            </div>
 
             {/* Mobile Menu Toggle - hidden on desktop */}
             <button
@@ -202,6 +248,27 @@ export default function Header() {
                 >
                   Contact Us
                 </Link>
+              </li>
+              <li>
+                {isLoggedIn ? (
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left cursor-pointer hover:text-yellow-300 transition-colors duration-200 py-3 px-4 hover:bg-gray-600"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="block cursor-pointer hover:text-yellow-300 transition-colors duration-200 py-3 px-4 hover:bg-gray-600"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                )}
               </li>
             </ul>
           </nav>
