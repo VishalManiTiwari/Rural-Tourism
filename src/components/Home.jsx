@@ -8,11 +8,12 @@ import HotelBooking from '../pages/HotelBooking';
 const Home = () => {
   return (
     <div className="mt-12  p-4">
-      <HotelBooking/>
+      
       <Hero/>
       <Search/>
       <CatRegion/>
       <RusticWonders/>
+      <HotelBooking/>
     </div>
   );
 };

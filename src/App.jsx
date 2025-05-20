@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import Region from './pages/Region';
 import Login from './components/Login';
 import Register from './components/Register';
+import HotelBooking from './pages/HotelBooking';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/region" element={<Region />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/hotel" element={<HotelBooking/>} />
       </Routes>
       <Footer />
     </Router>

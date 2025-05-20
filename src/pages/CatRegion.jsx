@@ -14,8 +14,8 @@ const CatRegion = () => {
 
   const toggleCategory = () => {
     setIsCategoryOpen((prev) => !prev);
-  };    if (isRegionOpen) setIsRegionOpen(false);
-
+    if (isRegionOpen) setIsRegionOpen(false);
+  };
 
   return (
     <div className="flex flex-col items-center my-6 px-4 gap-6">
@@ -50,14 +50,14 @@ const CatRegion = () => {
 
       {/* Category Dropdown */}
       {isCategoryOpen && (
-        <div className="">
+        <div>
           <Hcategory />
         </div>
       )}
 
       {/* Region Dropdown */}
       {isRegionOpen && (
-        <div className="">
+        <div>
           <Region />
         </div>
       )}
