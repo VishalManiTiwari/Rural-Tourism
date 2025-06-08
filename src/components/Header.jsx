@@ -1,4 +1,4 @@
-import { FaSearch, FaUser, FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaBars, FaTimes, FaSignOutAlt, FaLeaf } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
@@ -6,7 +6,6 @@ import { signOut } from "firebase/auth";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
@@ -28,29 +27,8 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile elements when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (mobileMenuOpen || searchOpen) {
-        const header = document.querySelector("header");
-        if (header && !header.contains(event.target)) {
-          setMobileMenuOpen(false);
-          setSearchOpen(false);
-        }
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [mobileMenuOpen, searchOpen]);
-
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
-    if (searchOpen) setSearchOpen(false);
-  };
-
-  const toggleSearch = () => {
-    setSearchOpen(!searchOpen);
-    if (mobileMenuOpen) setMobileMenuOpen(false);
   };
 
   const handleLogout = async () => {
@@ -67,122 +45,80 @@ export default function Header() {
     <header
       className={`w-full fixed text-white top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-gray-900 shadow-lg py-2"
-          : " bg-gray-900 shadow-md py-3"
+          ? "bg-gradient-to-r from-green-900 to-gray-900 shadow-lg py-2"
+          : "bg-gradient-to-r from-green-800 to-gray-900 shadow-md py-3"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6">
         {/* Main header row */}
         <div className="flex items-center justify-between h-16">
-          {/* Logo/Branding */}
-          <div className="flex-shrink-0 z-50">
-            <Link to="/" className="flex items-center">
-              <h1 className="text-2xl sm:text-3xl font-bold font-serif">
+          {/* Logo/Branding - more organic feel */}
+          <div className="flex-shrink-0 z-50 flex items-center">
+            <FaLeaf className="text-yellow-300 text-2xl mr-2" />
+            <Link to="/" className="flex flex-col">
+              <h1 className="text-2xl sm:text-3xl font-bold font-serif tracking-tight">
                 <span className="text-yellow-300">Rural</span> Escape
               </h1>
-              <span className="sr-only">Home</span>
+              <span className="text-xs text-green-200 font-light tracking-wider">
+                Discover Countryside Wonders
+              </span>
             </Link>
-            <p className="text-xs text-green-200 hidden sm:block">
-              Discover Countryside Wonders
-            </p>
           </div>
 
-          {/* Desktop Navigation - hidden on mobile */}
-          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2 mx-2 xl:mx-6">
+          {/* Desktop Navigation - curved links */}
+          <nav className="hidden lg:flex items-center space-x-1 mx-6">
             <Link
               to="/destinations"
-              className="hover:text-yellow-300 transition-colors duration-200 font-medium py-2 px-3 rounded-lg hover:bg-gray-700"
+              className="hover:text-yellow-300 transition-all duration-200 font-medium py-2 px-4 rounded-full hover:bg-gray-700/50 group"
             >
-              Destinations
+              <span className="relative group-hover:after:scale-x-100 group-hover:after:opacity-100 after:absolute after:w-full after:h-0.5 after:bg-yellow-300 after:left-0 after:-bottom-1 after:origin-left after:scale-x-0 after:opacity-0 after:transition-all after:duration-300">
+                Destinations
+              </span>
             </Link>
             <Link
               to="/experiences"
-              className="hover:text-yellow-300 transition-colors duration-200 font-medium py-2 px-3 rounded-lg hover:bg-gray-700"
+              className="hover:text-yellow-300 transition-all duration-200 font-medium py-2 px-4 rounded-full hover:bg-gray-700/50 group"
             >
-              Experiences
+              <span className="relative group-hover:after:scale-x-100 group-hover:after:opacity-100 after:absolute after:w-full after:h-0.5 after:bg-yellow-300 after:left-0 after:-bottom-1 after:origin-left after:scale-x-0 after:opacity-0 after:transition-all after:duration-300">
+                Experiences
+              </span>
             </Link>
             <Link
               to="/plan-trip"
-              className="hover:text-yellow-300 transition-colors duration-200 font-medium py-2 px-3 rounded-lg hover:bg-gray-700"
+              className="hover:text-yellow-300 transition-all duration-200 font-medium py-2 px-4 rounded-full hover:bg-gray-700/50 group"
             >
-              Plan Your Trip
+              <span className="relative group-hover:after:scale-x-100 group-hover:after:opacity-100 after:absolute after:w-full after:h-0.5 after:bg-yellow-300 after:left-0 after:-bottom-1 after:origin-left after:scale-x-0 after:opacity-0 after:transition-all after:duration-300">
+                Plan Trip
+              </span>
             </Link>
           </nav>
 
           {/* Action Buttons */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* Search - different behavior per screen size */}
-            <div className="relative">
-              {/* Desktop Search - always visible */}
-              <div className="hidden lg:block">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    className="py-2 px-4 pr-10 rounded-full text-white text-sm w-40 xl:w-56 focus:outline-none focus:ring-2 focus:ring-yellow-300"
-                  />
-                  <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-                </div>
-              </div>
-
-              {/* Tablet/Mobile Search Toggle */}
-              <button
-                onClick={toggleSearch}
-                className="lg:hidden p-2 rounded-full hover:bg-gray-700 transition-colors"
-                aria-label={searchOpen ? "Close search" : "Open search"}
-              >
-                {searchOpen ? (
-                  <FaTimes className="text-xl" />
-                ) : (
-                  <FaSearch className="text-xl" />
-                )}
-              </button>
-            </div>
-
+          <div className="flex items-center space-x-4">
             {/* Auth Button - changes based on login state */}
             <div className="hidden sm:block">
               {isLoggedIn ? (
                 <button 
                   onClick={handleLogout}
-                  className="flex items-center space-x-1.5 bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition-colors duration-200"
+                  className="flex items-center space-x-1.5 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   <FaSignOutAlt className="text-sm" />
-                  <span className="cursor-pointer">Logout</span>
+                  <span>Logout</span>
                 </button>
               ) : (
                 <Link to='/login'>
-                  <button className="flex items-center space-x-1.5 bg-yellow-500 hover:bg-yellow-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition-colors duration-200">
+                  <button className="flex items-center space-x-1.5 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg">
                     <FaUser className="text-sm" />
-                    <span className="cursor-pointer">Sign In</span>
+                    <span>Sign In</span>
                   </button>
                 </Link>
               )}
             </div>
 
-            {/* Mobile Auth - icon only */}
-            <div className="sm:hidden">
-              {isLoggedIn ? (
-                <button 
-                  onClick={handleLogout}
-                  className="p-2 rounded-full hover:bg-gray-700 transition-colors"
-                >
-                  <FaSignOutAlt className="text-xl" />
-                  <span className="sr-only cursor-pointer">Logout</span>
-                </button>
-              ) : (
-                <Link to='/login'>
-                  <button className="p-2 rounded-full hover:bg-gray-700 transition-colors">
-                    <FaUser className="text-xl" />
-                    <span className="sr-only cursor-pointer">Sign In</span>
-                  </button>
-                </Link>
-              )}
-            </div>
-
-            {/* Mobile Menu Toggle - hidden on desktop */}
+            {/* Mobile Menu Toggle */}
             <button
               onClick={toggleMobileMenu}
-              className="lg:hidden p-2 rounded-full hover:bg-gray-700 transition-colors ml-1"
+              className="lg:hidden p-2 rounded-full hover:bg-gray-700/50 transition-colors ml-1"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {mobileMenuOpen ? (
@@ -194,58 +130,64 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Search - full width when open */}
-        {searchOpen && (
-          <div className="lg:hidden mt-2 animate-fadeIn">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search destinations..."
-                className="py-3 px-4 pr-10 rounded-full text-gray-800 w-full focus:outline-none focus:ring-2 focus:ring-yellow-300"
-                autoFocus
-              />
-              <FaSearch className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500" />
-            </div>
-          </div>
-        )}
-
         {/* Mobile Menu - slides down when open */}
         {mobileMenuOpen && (
-          <nav className="lg:hidden mt-2 bg-gray-700 rounded-lg overflow-hidden animate-slideDown">
-            <ul className="divide-y divide-gray-600">
+          <nav className="lg:hidden mt-4 bg-gray-700/90 backdrop-blur-sm rounded-xl overflow-hidden animate-slideDown shadow-xl">
+            <ul className="divide-y divide-gray-600/50">
               <li>
                 <Link
                   to="/destinations"
-                  className="block hover:text-yellow-300 transition-colors duration-200 py-3 px-4 hover:bg-gray-600"
+                  className="block hover:text-yellow-300 transition-colors duration-200 py-4 px-6 hover:bg-gray-600/50 flex items-center"
                   onClick={() => setMobileMenuOpen(false)}
                 >
+                  <span className="w-6 mr-3 flex justify-center">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </span>
                   Destinations
                 </Link>
               </li>
               <li>
                 <Link
                   to="/experiences"
-                  className="block hover:text-yellow-300 transition-colors duration-200 py-3 px-4 hover:bg-gray-600"
+                  className="block hover:text-yellow-300 transition-colors duration-200 py-4 px-6 hover:bg-gray-600/50 flex items-center"
                   onClick={() => setMobileMenuOpen(false)}
                 >
+                  <span className="w-6 mr-3 flex justify-center">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                  </span>
                   Experiences
                 </Link>
               </li>
               <li>
                 <Link
                   to="/plan-trip"
-                  className="block hover:text-yellow-300 transition-colors duration-200 py-3 px-4 hover:bg-gray-600"
+                  className="block hover:text-yellow-300 transition-colors duration-200 py-4 px-6 hover:bg-gray-600/50 flex items-center"
                   onClick={() => setMobileMenuOpen(false)}
                 >
+                  <span className="w-6 mr-3 flex justify-center">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                  </span>
                   Plan Your Trip
                 </Link>
               </li>
               <li>
                 <Link
                   to="/contact"
-                  className="block hover:text-yellow-300 transition-colors duration-200 py-3 px-4 hover:bg-gray-600"
+                  className="block hover:text-yellow-300 transition-colors duration-200 py-4 px-6 hover:bg-gray-600/50 flex items-center"
                   onClick={() => setMobileMenuOpen(false)}
                 >
+                  <span className="w-6 mr-3 flex justify-center">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </span>
                   Contact Us
                 </Link>
               </li>
@@ -256,16 +198,22 @@ export default function Header() {
                       handleLogout();
                       setMobileMenuOpen(false);
                     }}
-                    className="block w-full text-left cursor-pointer hover:text-yellow-300 transition-colors duration-200 py-3 px-4 hover:bg-gray-600"
+                    className="block w-full text-left hover:text-yellow-300 transition-colors duration-200 py-4 px-6 hover:bg-gray-600/50 flex items-center"
                   >
+                    <span className="w-6 mr-3 flex justify-center">
+                      <FaSignOutAlt className="text-sm" />
+                    </span>
                     Logout
                   </button>
                 ) : (
                   <Link
                     to="/login"
-                    className="block cursor-pointer hover:text-yellow-300 transition-colors duration-200 py-3 px-4 hover:bg-gray-600"
+                    className="block hover:text-yellow-300 transition-colors duration-200 py-4 px-6 hover:bg-gray-600/50 flex items-center"
                     onClick={() => setMobileMenuOpen(false)}
                   >
+                    <span className="w-6 mr-3 flex justify-center">
+                      <FaUser className="text-sm" />
+                    </span>
                     Sign In
                   </Link>
                 )}

@@ -1,292 +1,296 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
-const Hcategory = () => {
-  const categories = [
-    {
-      name: "Rural",
-      icon: "🌄",
-      options: [
-        "All Rural",
-        "Agro-Tourism",
-        "Crafts-Tourism",
-        "Tribal-Tourism",
-        "Eco-Tourism",
-        "Wildlife-Tourism",
-        "Live Like a Local",
-      ],
-    },
-    {
-      name: "Adventure",
-      icon: "⛰️",
-      options: [
-        "Trekking",
-        "Water Sports",
-        "Mountain Biking",
-        "Rock Climbing",
-        "Wilderness Camping",
-      ],
-    },
-  ];
+// Fix for default Leaflet marker icon issues with Webpack
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+});
 
-  const [selectedOptions, setSelectedOptions] = useState({});
-  const [appliedFilters, setAppliedFilters] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeCategory, setActiveCategory] = useState(null);
+// Dummy data for rural tourism locations
+const ruralLocations = [
+  {
+    id: 1,
+    name: 'Serene Homestay',
+    description: 'A cozy homestay amidst nature, perfect for relaxation.',
+    category: 'Homestay',
+    coordinates: [28.6139, 77.2090], // Delhi coordinates for example
+    imageUrl: 'https://via.placeholder.com/150/92c952',
+  },
+  {
+    id: 2,
+    name: 'Adventure Trails',
+    description: 'Explore trekking and nature walks in the hills.',
+    category: 'Adventure',
+    coordinates: [28.7041, 77.1025], // Another Delhi coordinate
+    imageUrl: 'https://via.placeholder.com/150/771796',
+  },
+  {
+    id: 3,
+    name: 'Cultural Village Tour',
+    description: 'Experience local culture, traditions, and crafts.',
+    category: 'Cultural',
+    coordinates: [28.5355, 77.3910], // Noida coordinate
+    imageUrl: 'https://via.placeholder.com/150/24f355',
+  },
+  {
+    id: 4,
+    name: 'Riverside Camp',
+    description: 'Camping by the river with bonfire and stargazing.',
+    category: 'Adventure',
+    coordinates: [28.4595, 77.0266], // Gurgaon coordinate
+    imageUrl: 'https://via.placeholder.com/150/d32776',
+  },
+  {
+    id: 5,
+    name: 'Farm Stay Retreat',
+    description: 'Learn about organic farming and enjoy farm-fresh food.',
+    category: 'Homestay',
+    coordinates: [28.6339, 77.2190], // Delhi coordinate
+    imageUrl: 'https://via.placeholder.com/150/f66b97',
+  },
+];
 
-  const toggleOption = (categoryName, option) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [`${categoryName}-${option}`]: !prev[`${categoryName}-${option}`],
-    }));
+const RegionComponent = () => {
+  const [filteredLocations, setFilteredLocations] = useState(ruralLocations);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(null); // For modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const mapRef = useRef();
+
+  const categories = ['All', ...new Set(ruralLocations.map(loc => loc.category))];
+
+  useEffect(() => {
+    let results = ruralLocations;
+
+    // Filter by category
+    if (selectedCategory !== 'All') {
+      results = results.filter(loc => loc.category === selectedCategory);
+    }
+
+    // Filter by search term
+    if (searchTerm) {
+      results = results.filter(loc =>
+        loc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        loc.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    setFilteredLocations(results);
+  }, [selectedCategory, searchTerm]);
+
+  // Function to center map on a specific location
+  const panToLocation = (coordinates) => {
+    if (mapRef.current) {
+      mapRef.current.setView(coordinates, 13); // Zoom level 13
+    }
   };
 
-  const clearAll = () => {
-    setSelectedOptions({});
-    setSearchTerm("");
-    setAppliedFilters([]);
+  const openLocationModal = (location) => {
+    setSelectedLocation(location);
+    setIsModalOpen(true);
   };
 
-  const applyFilters = () => {
-    const selected = Object.keys(selectedOptions).filter(
-      (key) => selectedOptions[key]
-    );
-    setAppliedFilters(selected);
-    alert(`Filters applied: ${selected.map((key) => key.split("-").slice(1).join("-")).join(", ")}`);
+  const closeLocationModal = () => {
+    setIsModalOpen(false);
+    setSelectedLocation(null);
   };
 
-  const filteredCategories = categories
-    .map((category) => ({
-      ...category,
-      options: category.options.filter((option) =>
-        option.toLowerCase().includes(searchTerm.toLowerCase())
-      ),
-    }))
-    .filter((category) => category.options.length > 0);
+  // Component to get map instance
+  function MapSetter() {
+    const map = useMapEvents({});
+    useEffect(() => {
+      mapRef.current = map;
+    }, [map]);
+    return null;
+  }
 
-  const toggleCategory = (categoryName) => {
-    setActiveCategory(activeCategory === categoryName ? null : categoryName);
-  };
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
-      {/* Search Bar */}
-      <div className="mb-6">
-        <div className="relative">
+    <div className="flex flex-col lg:flex-row h-screen bg-gray-50">
+      {/* Sidebar for Filters and List */}
+      <div className="w-full lg:w-1/3 bg-white p-6 shadow-lg overflow-y-auto">
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-6 border-b pb-4">
+          Explore Rural India
+        </h2>
+
+        {/* Search Input */}
+        <div className="mb-6">
+          <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+            Search Locations
+          </label>
           <input
             type="text"
-            placeholder="Search categories..."
-            className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            id="search"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            placeholder="e.g., homestay, trekking"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg
-              className="h-5 w-5 text-gray-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-          {searchTerm && (
-            <button
-              onClick={() => setSearchTerm("")}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center"
-            >
-              <svg
-                className="h-5 w-5 text-gray-400 hover:text-gray-600"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          )}
         </div>
-      </div>
 
-      {/* Category Navigation */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {categories.map((category) => (
-          <button
-            key={category.name}
-            onClick={() => toggleCategory(category.name)}
-            className={`flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              activeCategory === category.name
-                ? "bg-blue-100 text-blue-800"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
+        {/* Category Filter */}
+        <div className="mb-6">
+          <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+            Filter by Category
+          </label>
+          <select
+            id="category"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            <span className="mr-2">{category.icon}</span>
-            {category.name}
-          </button>
-        ))}
-      </div>
+            {categories.map(category => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      {/* Category Cards */}
-      <div className="space-y-4">
-        {filteredCategories
-          .filter((category) =>
-            activeCategory ? category.name === activeCategory : true
-          )
-          .map((category, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl shadow border overflow-hidden"
-            >
-              <div className="px-5 py-4 bg-gradient-to-r from-blue-50 to-indigo-50">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-3">{category.icon}</span>
-                    <h2 className="text-lg font-semibold text-gray-800">
-                      {category.name}
-                    </h2>
-                  </div>
-                  <span className="text-sm text-gray-500">
-                    {category.options.length} options
+        {/* Location List */}
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Found Locations ({filteredLocations.length})
+          </h3>
+          <ul className="space-y-4">
+            {filteredLocations.map(location => (
+              <li
+                key={location.id}
+                className="bg-gray-100 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer flex items-center space-x-4"
+                onClick={() => {
+                  panToLocation(location.coordinates);
+                  openLocationModal(location);
+                }}
+              >
+                <img src={location.imageUrl} alt={location.name} className="w-16 h-16 rounded-md object-cover" />
+                <div>
+                  <p className="text-lg font-medium text-gray-900">{location.name}</p>
+                  <p className="text-sm text-gray-600 truncate">{location.description}</p>
+                  <span className="inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800">
+                    {location.category}
                   </span>
                 </div>
-              </div>
-              <div className="p-5 max-h-[300px] overflow-y-auto">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {category.options.map((option, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => toggleOption(category.name, option)}
-                      className={`flex items-center px-4 py-2 rounded-lg transition-all text-sm ${
-                        selectedOptions[`${category.name}-${option}`]
-                          ? "bg-blue-50 border border-blue-200 text-blue-700"
-                          : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block w-5 h-5 rounded border flex items-center justify-center mr-3 ${
-                          selectedOptions[`${category.name}-${option}`]
-                            ? "bg-red-500 border-red-500 text-white"
-                            : "border-gray-300"
-                        }`}
-                      >
-                        {selectedOptions[`${category.name}-${option}`] && (
-                          <svg
-                            className="w-3 h-3"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                        )}
-                      </span>
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-      </div>
-
-      {/* No Results */}
-      {filteredCategories.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
-          <div className="text-4xl mb-4">😕</div>
-          <h3 className="text-lg font-semibold">No categories found</h3>
-          <p className="text-sm">
-            {searchTerm
-              ? "Try searching for something else."
-              : "Currently no categories are available."}
-          </p>
-        </div>
-      )}
-
-      {/* Selected Options */}
-      {Object.keys(selectedOptions).some((key) => selectedOptions[key]) && (
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
-          <div className="flex justify-between items-center mb-2">
-            <h4 className="text-sm font-medium text-red-800">
-              Selected options (
-              {Object.values(selectedOptions).filter(Boolean).length})
-            </h4>
-            <button
-              onClick={clearAll}
-              className="text-xs text-red-600 hover:underline"
-            >
-              Clear all
-            </button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {Object.entries(selectedOptions)
-              .filter(([_, isSelected]) => isSelected)
-              .map(([key]) => (
-                <span
-                  key={key}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-xs bg-blue-100 text-red-800"
-                >
-                  {key.split("-").slice(1).join("-")}
-                  <button
-                    onClick={() =>
-                      toggleOption(
-                        key.split("-")[0],
-                        key.split("-").slice(1).join("-")
-                      )
-                    }
-                    className="ml-2 hover:text-red-500"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-          </div>
-        </div>
-      )}
-
-      {/* Action Buttons */}
-      <div className="flex justify-end gap-3 mt-6">
-        <button
-          onClick={clearAll}
-          className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50"
-        >
-          Clear
-        </button>
-        <button
-          onClick={applyFilters}
-          className="px-6 py-2 bg-red-600 rounded-lg text-white font-medium hover:bg-red-700 shadow"
-        >
-          Apply Filters
-        </button>
-      </div>
-
-      {/* Applied Filters Section */}
-      {appliedFilters.length > 0 && (
-        <div className="mt-8 p-4 bg-green-50 rounded-lg border border-green-200">
-          <h4 className="font-medium text-green-800 mb-2">Applied Filters:</h4>
-          <div className="flex flex-wrap gap-2">
-            {appliedFilters.map((key) => (
-              <span
-                key={key}
-                className="inline-flex items-center px-3 py-1 rounded-full text-xs bg-green-100 text-green-800"
-              >
-                {key.split("-").slice(1).join("-")}
-              </span>
+              </li>
             ))}
-          </div>
+            {filteredLocations.length === 0 && (
+              <p className="text-center text-gray-600 py-8">No locations found matching your criteria.</p>
+            )}
+          </ul>
         </div>
-      )}
+      </div>
+
+      {/* Map Section */}
+      <div className="w-full lg:w-2/3 h-96 lg:h-auto">
+        <MapContainer
+          center={[28.6139, 77.2090]} // Default center (e.g., India's general region)
+          zoom={10}
+          scrollWheelZoom={true}
+          className="h-full w-full rounded-lg shadow-xl"
+        >
+          <MapSetter />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {filteredLocations.map(location => (
+            <Marker
+              key={location.id}
+              position={location.coordinates}
+              eventHandlers={{
+                click: () => {
+                  openLocationModal(location);
+                },
+              }}
+            >
+              <Popup>
+                <div className="font-semibold text-lg">{location.name}</div>
+                <p className="text-gray-700">{location.description}</p>
+                <span className="text-xs text-indigo-600">{location.category}</span>
+                <button
+                  onClick={() => openLocationModal(location)}
+                  className="mt-2 px-3 py-1 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition-colors"
+                >
+                  View Details
+                </button>
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+      </div>
+
+      {/* Location Detail Modal */}
+      <Transition appear show={isModalOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeLocationModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-2xl font-bold leading-6 text-gray-900"
+                  >
+                    {selectedLocation?.name}
+                  </Dialog.Title>
+                  <div className="mt-4">
+                    <img src={selectedLocation?.imageUrl} alt={selectedLocation?.name} className="w-full h-48 object-cover rounded-lg mb-4" />
+                    <p className="text-sm text-gray-700">
+                      {selectedLocation?.description}
+                    </p>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Category: <span className="font-medium text-indigo-600">{selectedLocation?.category}</span>
+                    </p>
+                  </div>
+
+                  <div className="mt-6 flex justify-end space-x-3">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-900 hover:bg-indigo-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                      onClick={closeLocationModal}
+                    >
+                      Got it, thanks!
+                    </button>
+                    {/* Add a link to a dedicated page for this location if applicable */}
+                    <a
+                      href={`/locations/${selectedLocation?.id}`} // Example route
+                      className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                    >
+                      Learn More
+                    </a>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </div>
   );
 };
 
-export default Hcategory;
+export default RegionComponent;

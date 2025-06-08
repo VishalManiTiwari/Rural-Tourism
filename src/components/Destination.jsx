@@ -8,7 +8,7 @@ const Destination = () => {
 
   const tabs = [
     { id: 'states', label: 'States and UTs' },
-    { id: 'destinations', label: 'Destinations' },
+    // { id: 'destinations', label: 'Destinations' },
     { id: 'parks', label: 'National Parks' },
   ];
 
@@ -34,7 +34,7 @@ const Destination = () => {
 
       <div className="mt-10 animate-fade-in">
         {activeTab === 'states' && <StateUt />}
-        {activeTab === 'destinations' && <Destinations />}
+        {/* {activeTab === 'destinations' && <Destinations />} */}
         {activeTab === 'parks' && <NationalPark />}
       </div>
     </div>
