@@ -123,9 +123,9 @@ const RusticCards = () => {
       description: "The Village that Corbett built",
       image: "https://s7ap1.scene7.com/is/image/incredibleindia/jim-corbett-village-rural-wonders?qlt=82&ts=1726642200762",
       gallery: [
-        "https://www.euttaranchal.com/tourism/photos/chhoti-haldwani-2216440.jpg",
-        "https://www.outlookindia.com/outlooktraveller/public/uploads/articles/travel/jim-corbett-1.jpg",
-        "https://www.indiatravelblog.in/wp-content/uploads/2018/11/Chhoti-Haldwani-Uttarakhand-1.jpg"
+        "https://www.incredibleindia.gov.in/content/dam/incredible-india/images/rural-tourism/chhoti-haldwani/1-jim-corbett-village-rural-ff.jpg",
+        "https://static.toiimg.com/thumb/msid-48143303,width=1200,height=900/48143303.jpg",
+        "https://www.sterlingholidays.com/activities/corbett/mustsee/bannerimage/corbett-choti-haldwani.jpg.imgw.1280.1280.jpeg"
       ],
       video: "https://youtu.be/TBtq-h7SMzU?si=30XcpwQl76luVtD2", 
       link: "https://en.wikipedia.org/wiki/Chhoti_Haldwani",
@@ -142,9 +142,9 @@ const RusticCards = () => {
       description: "Heritage mansions & spicy cuisine",
       image: "https://c8.alamy.com/comp/PJXGW5/kanadukathan-india-march-12-2018-street-scene-in-the-chettinad-region-an-area-renowned-for-grand-houses-many-of-them-are-now-unoccupied-PJXGW5.jpg",
       gallery: [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Kanadukathan.JPG/1200px-Kanadukathan.JPG",
-        "https://www.outlookindia.com/outlooktraveller/public/uploads/articles/travel/chettinad_mansions.jpg",
-        "https://www.holidify.com/images/cmsuploads/compressed/Chettinad_Palace_20170823121547.jpg"
+        "https://www.holidify.com/images/bgImages/CHETTINAD.jpg",
+        "https://sarathavilas.com/wp-content/uploads/2020/05/PALLATHUR_SV.jpg",
+        "https://sarathavilas.com/wp-content/uploads/2020/05/COUV_1_SV.jpg"
       ],
       video: "https://www.youtube.com/embed/dQw4w9WgXcQ?si=iXJ0F_T9w491X_pX",
       link: "https://en.wikipedia.org/wiki/Chettinad",
@@ -161,9 +161,9 @@ const RusticCards = () => {
       description: "Mini Switzerland of India",
       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Nature_of_Khajjiar_%28cropped%29.jpg/800px-Nature_of_Khajjiar_%28cropped%29.jpg",
       gallery: [
-        "https://www.holidify.com/images/cmsuploads/compressed/2360_20191217154245.jpg",
-        "https://static.toiimg.com/thumb/msid-72648773,width-748,height-499,resizemode=4/72648773.jpg",
-        "https://www.euttaranchal.com/tourism/photos/khajjiar-lake-2216443.jpg"
+        "https://img1.oastatic.com/img2/75592492/max/variant.jpg",
+        "https://www.savaari.com/blog/wp-content/uploads/2020/01/29643790127_7e779467f1_c.jpg",
+        "https://www.tripnight.com/public/thumbs/monuments/252/UrHCl0Vy6mGX_468_738.jpg"
       ],
       video: "https://www.youtube.com/embed/dQw4w9WgXcQ?si=iXJ0F_T9w491X_pX",
       link: "https://en.wikipedia.org/wiki/Khajjiar",
@@ -180,9 +180,9 @@ const RusticCards = () => {
       description: "World's largest river island",
       image: "https://www.oyorooms.com/travel-guide/wp-content/uploads/2019/06/Image-2-14.jpg",
       gallery: [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Majuli_Island_Assam.jpg/1200px-Majuli_Island_Assam.jpg",
-        "https://www.holidify.com/images/cmsuploads/compressed/Majuli_20181212170344.JPG",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Mask_making_in_Majuli.jpg/1200px-Mask_making_in_Majuli.jpg"
+        "https://upload.wikimedia.org/wikipedia/commons/6/68/Majuli_Island.jpg",
+        "https://media.istockphoto.com/id/1219436845/photo/beautiful-scenery-of-majuli-island-assam.jpg?s=612x612&w=0&k=20&c=wOF4KQPUZOKSs8nuE4MDGwKL3PkIA-9GxWdALjJL6ns=",
+        "https://www.kazirangasafaribooking.in/assets/images/molai-island.jpg"
       ],
       video: "https://www.youtube.com/embed/dQw4w9WgXcQ?si=iXJ0F_T9w491X_pX",
       link: "https://en.wikipedia.org/wiki/Majuli",
@@ -199,9 +199,9 @@ const RusticCards = () => {
       description: "Ikat weaving village",
       image: "https://humansofhyderabad.co.in/wp-content/uploads/2023/10/IMG-20211117-WA0019-970x647.jpg",
       gallery: [
-        "https://www.aponline.gov.in/sites/default/files/styles/banner_desktop_1366x500/public/2021-02/Pochampally.jpeg?itok=f4z2z_0g",
-        "https://static.toiimg.com/thumb/msid-71701509,width-748,height-499,resizemode=4/71701509.jpg",
-        "https://www.telanganatourism.gov.in/img/imgdetail/pochampally.jpg"
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRcdjHPnNndHQEAIorClnVqeTw8UyflkWtDQ&s",
+        "https://www.bizzbuzz.news/h-upload/2021/11/16/1402526-unwto.webp",
+        "https://www.sakshipost.com/sites/default/files/styles/canvas/public/article_images/2021/11/17/gaon2-1637143003.jpg?itok=mgnI2Riw"
       ],
       video: "https://www.youtube.com/embed/dQw4w9WgXcQ?si=iXJ0F_T9w491X_pX",
       link: "https://en.wikipedia.org/wiki/Pochampally",
@@ -218,9 +218,9 @@ const RusticCards = () => {
       description: "Cold desert mountain villages",
       image: "https://s7ap1.scene7.com/is/image/incredibleindia/dawar-jammu-and-kashmir-rural-wonders?qlt=82&ts=1726641891221",
       gallery: [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Key_Monastery.jpg/1200px-Key_Monastery.jpg",
-        "https://www.holidify.com/images/cmsuploads/compressed/spiti_valley_20170824141643.jpg",
-        "https://www.euttaranchal.com/tourism/photos/chandratal-lake-spiti-valley-2216441.jpg"
+        "https://static.toiimg.com/img/94619601/Master.jpg",
+        "https://t4.ftcdn.net/jpg/03/72/75/73/360_F_372757378_aOASkKDmkQiakQnePuxOZSyLaRaghSW8.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBJenGZgMklQAg8f9rQ55yNXib2_Nxqun1dg&s"
       ],
       video: "https://www.youtube.com/embed/dQw4w9WgXcQ?si=iXJ0F_T9w491X_pX",
       link: "https://en.wikipedia.org/wiki/Spiti_Valley",
@@ -237,9 +237,9 @@ const RusticCards = () => {
       description: "Pilgrimage town with pristine beaches",
       image: "https://us.123rf.com/450wm/olgaphotofire/olgaphotofire1404/olgaphotofire140400003/27094984-gokarna-karnataka-india-february-27-2014-locals-bathe-in-the-sacred-lake-kotiteertha-in-gokarna.jpg?ver=6",
       gallery: [
-        "https://www.holidify.com/images/cmsuploads/compressed/Om_Beach_Gokarna_20170823122115.jpg",
-        "https://www.euttaranchal.com/tourism/photos/mahabelshwar-temple-gokarna-2216445.jpg",
-        "https://www.tourism.karnataka.gov.in/storage/images/223/original/Gokarna_12.jpg"
+        "https://t3.ftcdn.net/jpg/04/79/25/78/360_F_479257808_maKCrMJERcyaOxkxfTlsRwO2Sy6c4yEw.jpg",
+        "https://media.istockphoto.com/id/1299344131/photo/gokarna-beash-at-sunset.jpg?s=612x612&w=0&k=20&c=AyCTo2Gl-vmCr14Ea4ziDzwQI3WOt1a9sXeSeojDadM=",
+        "https://t3.ftcdn.net/jpg/01/16/39/04/360_F_116390418_fjvPvAWcWfgDCYAJsWiT5sni5ukzcUO8.jpg"
       ],
       video: "https://www.youtube.com/embed/dQw4w9WgXcQ?si=iXJ0F_T9w491X_pX",
       link: "https://en.wikipedia.org/wiki/Gokarna",
@@ -256,9 +256,9 @@ const RusticCards = () => {
       description: "Asia's Cleanest Village",
       image: "https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2023/12/19/ad850532a481cb0321a8d50598f7e15c_1000x1000.jpg",
       gallery: [
-        "https://www.holidify.com/images/cmsuploads/compressed/Mawlynnong_Living_Root_Bridge_20181212170355.jpg",
-        "https://static.india.com/wp-content/uploads/2016/11/mawlynnong-1.jpg",
-        "https://www.euttaranchal.com/tourism/photos/mawlynnong-village-2216446.jpg"
+        "https://thumbs.dreamstime.com/b/famous-double-decker-living-roots-bridge-near-nongriat-village-cherrapunjee-meghalaya-india-famous-double-decker-living-roots-115227368.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/c/cc/Mawlynnong_-_Cleanest_village_of_Asia_in_Meghalaya.jpg",
+        "https://www.akkcrusier.com/blog/wp-content/uploads/2023/08/Mawlynnong-The-cleanest-city-in-Asia.jpg"
       ],
       video: "https://www.youtube.com/embed/dQw4w9WgXcQ?si=iXJ0F_T9w491X_pX",
       link: "https://en.wikipedia.org/wiki/Mawlynnong",
@@ -275,9 +275,9 @@ const RusticCards = () => {
       description: "Land of the Apatani Tribe",
       image: "https://s3.india.com/wp-content/uploads/2024/07/Ziro-Arunachal-Pradesh_-Top-Tips-For-First-Time-Travelers-Revealed.jpg##image/jpg",
       gallery: [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Apatani_women_in_Ziro_Valley.jpg/1200px-Apatani_women_in_Ziro_Valley.jpg",
-        "https://www.euttaranchal.com/tourism/photos/ziro-valley-2216447.jpg",
-        "https://www.outlookindia.com/outlooktraveller/public/uploads/articles/travel/Ziro.jpg"
+        "https://media.istockphoto.com/id/1178712785/photo/view-from-dura-hidden-paradise-ziro.jpg?s=612x612&w=0&k=20&c=PbWUrAVgmNcj9y5wVXDl8b7rhn_ITnI5z4ceQQpv82o=",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq9qC3Y69Fnntim5CuRvp8w4trR0nvfjKKaQ&s",
+        "https://thumbs.dreamstime.com/b/ziro-famous-paddy-cum-pisciculture-cultivation-area-renowned-terrace-fields-where-unique-system-poly-culture-318865138.jpg"
       ],
       video: "https://www.youtube.com/embed/dQw4w9WgXcQ?si=iXJ0F_T9w491X_pX",
       link: "https://en.wikipedia.org/wiki/Ziro",
@@ -294,9 +294,9 @@ const RusticCards = () => {
       description: "First Ecotourism Village of India",
       image: "https://media-cdn.tripadvisor.com/media/photo-s/11/d2/9e/97/view-from-reception.jpg",
       gallery: [
-        "https://www.holidify.com/images/cmsuploads/compressed/Kumbalangi_Integrated_Tourism_Village_20181212170350.JPG",
-        "https://www.keralatourism.org/images/destination/mobile/kumbalangi.jpg",
-        "https://www.euttaranchal.com/tourism/photos/kumbalangi-village-2216444.jpg"
+        "https://www.keralatourism.org/_next/image/?url=http%3A%2F%2F127.0.0.1%2Fktadmin%2Fimg%2Fpages%2Fmobile%2Fkumbalangi-tourism-village-1723102774_750d3397bf83541d5c0c.webp&w=3840&q=75",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMdkdM7r33kOsPL5j5gHW6Ju9VBAAPsBxjKQ&s",
+        "https://live.staticflickr.com/2786/4537350332_f91427f791_z.jpg"
       ],
       video: "https://youtu.be/8RtOnEq7m9E?si=7xxCrbtK8h9DGWmt",
       link: "https://en.wikipedia.org/wiki/Kumbalangi",

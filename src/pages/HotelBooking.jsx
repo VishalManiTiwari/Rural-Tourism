@@ -16,12 +16,6 @@ const HotelBooking = () => {
 
   const hotelPlatforms = [
     {
-      name: "OYO Rooms",
-      link: "https://www.oyorooms.com/",
-      logo: "https://imgs.search.brave.com/DgN3mtHmT309EbQp3vM1j1S5zUQaMq2wrfWH5QtLKDM/rs:fit:32:32:1:0/g:ce/aHR0cDovL2Zhdmlj/b25zLnNlYXJjaC5i/cmF2ZS5jb20vaWNv/bnMvMzQyMzgxOWI4/ODVmYTljMTk1OTRh/N2M2YmQwNDRiMzE3/ZTgzNzIwYjE5ZWNl/ZjM1NjViNzM3ZDlh/OTAwMmRjNC93d3cu/b3lvcm9vbXMuY29t/Lw",
-      description: "Affordable hotels and homes across India"
-    },
-    {
       name: "MakeMyTrip",
       link: "https://www.makemytrip.com/hotels/",
       logo: "https://imgs.search.brave.com/SDWEgz6k6fTaw2Qb1qrz45ZrJa9pMMWInoQJezQLEt0/rs:fit:32:32:1:0/g:ce/aHR0cDovL2Zhdmlj/b25zLnNlYXJjaC5i/cmF2ZS5jb20vaWNv/bnMvMmM4MDRmMjI2/NjhmMTgxNWVmZjlm/NjQ3NjlmYjdjM2Zl/MjEwMDZhMzliOWI2/ZThmOWRkNGEzNjFl/Mzc5NzYyMy93d3cu/bWFrZW15dHJpcC5j/b20v",
@@ -53,17 +47,64 @@ const HotelBooking = () => {
     }
   ];
 
+  // New data for rural accommodation platforms
+  const ruralPlatforms = [
+    {
+      name: "Airbnb",
+      link: "https://www.airbnb.co.in/",
+      logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAgVBMVEX/Wl//VVr/T1X/TVP/io3/y8z/jpH/S1H/w8X/////6uv/U1j/oaT/SU//nZ//kpX/8PH/2tv/1tf/+Pn/mJv/cXX/V1z/bHD/z9D/XWL/v8D/7u//SE7/dnr/pqn/4+T/fYH/g4b2////Ulf/t7nVw8Psz9D/ra/y8/Psw8TQ0NB9coXpAAABLUlEQVR4Aa2SRYLDMAxFbamJojA6jOXe/36BMq5mtNTT+0bxPyUB5C+GK03T8Tsjg02TNfrGLJ1tx3HZs76JfuAI4YQRfRFjTpQQKmXX+oR+huddZZH1wdyzeFbtd4pRSAKIQFEWwaco86L0i1wm72o1i1bJRcG+nNXqRfS4hoZTwpQbSDh+VqEMELR2Fpw2Awx9eDC54k6CUc4tNA1QNevyDqmdJelxqlS6RDptS3exO09ilDmkMZyT+psKmb8MWjb39dCsl6gywyt0og2cL6L1t7uFifWGnRvk/bmlBB+UOsPmDjEwl1PL9fHEwVoud9IGt1jZs7Em7Mqh69jvkNbFY0MCbI4Ck83ashKTyyDiBp5uKN2Ehk7ztKKVEW7SJzb31gjy9j9xrcQfawK2mxMZFR8t7QAAAABJRU5ErkJggg==",
+      description: "Unique homes and experiences worldwide, including rural stays"
+    },
+    {
+      name: "Homestay.com",
+      link: "https://www.homestay.com/",
+      logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAABSlBMVEX////62MZRAAD8qgBlKQD1dADwSAD8pwBiIwBZAAD88+30bgD60b3759tWAAD99un89vTxVx1udQDXAEfZAFTzhWb5zcLp5uQqAAD9/Pj8z4v8owD81p/3mV/zfyf+4c+giH3e1dL958n9xG34q4D4tI30j0v1hjn3oGyJbGC8qaP+7tj93bD815n4xan5y7J0QyuWd2nKu7T8vFb1exaOZl/EsbHG5ab3u5uTzEms2XrM56+BwR7O5bX3pXbOvr+bzFpbEQCx14TnxLHk8NTs9OJwOhPa68a83JX9yXyNaFZ+VUHJx7Hb2si8v5manWKtsYGGiTX4v7LyakCwmI3xXy3sjqf0w8/2pZH94Ojxck3rorXS7/uP1fNpyPD1lHm04vbp///dQG7hZYfvMwBTPjxyZGKJgH8SAACjnJsfAABjUVBCKCQwFA8DyLtjAAADOklEQVRIie3T21fiVhQH4B1CInMyR4KQHKJyOQ4XQQcwQ0EsmME6M8rUViP3eKHWJMbY//+1x+nqQ9s1AXyYh675vSVrfdl7n7MD8D3/y2iwvrKxKXN/P3OpdCZLs3Pd1hvg13nI5QvPT0grytu4FCqHCAl2Oxu7UX7zLRKEClQ1VC3gukZre3pk9dWciu92UKaKU3UJIUng0oVURqK0oZV/aDQDG+V3oVIVXqfrFa4iCPu4fgisog6tgx/bnaB6PA+HRaGa4+rSfiFXZGcj7Zciq0ar3Wm9D4A8vxUt1oXXWKjXixyuCClI5UvhLnl/0joKgNENnn+HpcOKlCqyPtNS4aeSDrXaK+34w/GHjhYgtzbXozJsb6P0IZJyuBwKr9KPevf44FO7dRLgTk95no9ipEkpQDif1/VaiBik0Wx3mgefvg61Xeb4rbyAsQYFochB76Ou9z6Xj9pHP5/9EnA4b1dO3/BRYV/ahqpQz6cxIXu9SGTvpHn06/l5ANw5ja7wSKpmEOQEoYCgQfay4fDnZqd5sXYWAFWMMrtsRU3lUsVVoLWuTrOlsA4aObsIcABYZJFFMRYTB5AN9Wtd2u8DnK+tXQRcxhfIiAJoEBNN6IW7/V5WHsZHZ0xGAyFMRXw5xsrgcgzQ70ZW9Uk8kRgxF3Q0X0remzAWlTGoUwVBmYziViIhX11dzXEAshpj7cbAnIqigmE0seITuL6ZD+FWUcWYCKYYuzVHIwss62o2u57v2P5MRTalqcIkzuaLD3+7mc0WcQBjZD7fCsCQzZewZjcL1XvOQBwobExtMmQVJwsN+FewgqbiFKaT+N3QguuFHQs3NkG5v4XR8O5OXsKBqWCZLS4Mf48Pl3FMXqr3XGxg3VnLOfajqOKY7fuyDJ6Xjy3QSyCoovIix9b2ZeybhNhAnP+8dReASaA2+DZtuLZnG8R3NNf3HnzDdqkL/tdnJg/JpOPoJOl6nk9tv+y6jzo8EtKwjST7ZGBF3zHkpGvoLnnyvQaljpfUHqlvuE9GAPTZjLL9RD2DerJDbJuyvlm3vkPJw/xR//kxQmVKCfzhLQld6jmus8DJ/iuGYbC+KV0afs83zZ/ZSYoq8H+TjQAAAABJRU5ErkJggg==",
+      description: "Authentic cultural experiences with local hosts"
+    },
+    {
+      name: "Ecophiles (Eco-friendly stays)",
+      link: "https://ecophiles.com/sustainable-travel-destinations-eco-hotels/", // Example, specific link might vary
+      logo: "data:image/webp;base64,UklGRtICAABXRUJQVlA4WAoAAAAQAAAAJgAAJgAAQUxQSBIBAAARd6CgbRs2p74dbMO0iIhb6RvrDQGAVm3brq2InM/xhhBUoAcnlAPG+K40h4l9QENE/yfg+6pltUr58erv3NT0qd7UzLUspfpSbVCt1qqrUyz77WUe1Vz7DYsdnLWr0+xZPRQJKcVxZNlqNeMyktPBhlxCIbhBBdcqzzU3q6tm6TYgkqutSmuVxUWVg7VN4tBJ1Zwd5kApB7In7fngaJmzJpVHlhkExRdrD8/HZxBGwlxzXMxO21YgNxuYxBCRC6X6q1YR67ZMqOlIdk8rWLFO7lY1yz11Y/MhPdhlf7xW3ezBYwvZVav24Kp2d07GzCUHhxAFsFuBISDk4EZ+MZ4XwPUPfz6E91//f/gJ/OQXwLcXVlA4IJoBAABwBwCdASonACcAPpEqpFIloaWlk5CwEglAGNV81qAdJvMONU9ixP9Hy/fmj0SeqSYVth/DGWnedKU1yle+z+0hxsScAAD51oZCsa2RV90wtgI9cx+Nb/5afvQFS3HZM2QMlGvkLMZo6/g96CkIKHf+Au3OpX7/6yv/9ZX/+sryLyH8s+oCO0MwJzFUaPge0Oh+hZg0B/6J+rvlpVHuu5xCEMsBxNWDPeEdfIP/JbQiCX3ZN8PzPwS7oTfFexhf9yZ7jKuQ09vEyNZGXsbaXLPO1ayUS1taRLF4ZSIgbxLszzvLP32FR/9LTn/+c98loEGXVP068nK/+7Ww+4KWLJfagRqeqYPf9f+f9/OqYALM8/ez+juB7mN0V1s5tzhFfruZdhn3Ta+01eMUTZNzHslrj54KabwDfT5g63ddX7dvnzs2U7A/7/34YqRyiMoWapQ/ZDUnRHVrBBGHieBuo09Ig7LBFGzCuP+ef1Koqd3f9VeEUFEhGiy3yXtDv0/rtbU1DkbOn+14gJZPCwP5E6M3DStNe31K9TAAAA==",
+      description: "Sustainable and eco-friendly accommodations"
+    },
+    {
+      name: "Local Tourism Boards",
+      link: "https://www.incredibleindia.org/content/incredible-india-new/en/destinations.html", // Example for India
+      logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAZlBMVEVHcEz/a0X/bEj/aUP/aUP/a0b/bEf/Z0H/aEH/Z0H/Zj//akT/Yjn/XC//d1X/xLX/0cP/3dL/9e7/oYr//Pb/+PL/rpr/uKX/7OP/l33/aEL/jHD/6OD/+fL/xbX/9e7/9O3/9e5cQb5WAAAAInRSTlMAO4TC5/+FZ//eIdP//////////////////4X/LUPkhcLn+hVGywAAAR5JREFUeAF90te2hCAMQFEsjFEDQobYp/3/T16WRG6f/XoslKisKKta67q6FOqnpoasbb6lrocI0ZiU+05lhYbIDs7TFVMuvjewgTmMErXUDhLNRGGSCDp9uQdBROwMiP5YJwj0TOwNgmhibCGx1jMz+fzhOq4GEpzC7L0bpgUhr2kFoTWgMQYRTqWqIEM7TRYhq1QNmZ1DmC1ktYIMpyAbFfp9fPfZ9wtaczpYqzVA2s9FFVLsMviZQsTz7IYtXVsdE1w9BaYTc1gQ2uPgzXVmpoyjWaeDV70LRJQrD4ObHaYrUzsT8TxqlzqP5hglGaMbsdNoZkrRGxkiqQ4BLJ2sNNG1gBtLiytNo5k17XhGvjfqp/3xfBG9no9dnT4AMAsexrw7T6IAAAAASUVORK5CYII=",
+      description: "Official resources for guesthouses and local stays"
+    }
+  ];
+
   const generateBookingLink = (platform) => {
     const baseUrl = platform.link;
     const params = new URLSearchParams();
-    
-    if (location) params.append("searchText", location);
+
+    // Specific logic for platforms that use "searchText" or similar
+    if (platform.name === "MakeMyTrip" || platform.name === "Goibibo") {
+      if (location) params.append("searchText", location);
+    } else if (platform.name === "Booking.com" || platform.name === "Agoda") {
+      if (location) params.append("ss", location); // Booking.com and Agoda often use 'ss' for destination
+    } else if (platform.name === "Airbnb") {
+        if (location) params.append("query", location);
+        params.append("checkin", checkIn.toISOString().split('T')[0]);
+        params.append("checkout", checkOut.toISOString().split('T')[0]);
+        params.append("adults", adults);
+        if (children > 0) params.append("children", children);
+        return `${baseUrl}s/homes?${params.toString()}`; // Airbnb has a specific search path
+    } else if (platform.name === "Homestay.com") {
+        if (location) params.append("destination", location);
+    }
+
+
     params.append("checkin", checkIn.toISOString().split('T')[0]);
     params.append("checkout", checkOut.toISOString().split('T')[0]);
     params.append("adults", adults);
     if (children > 0) params.append("children", children);
-    
-    return `${baseUrl}?${params.toString()}`;
+
+    // Some platforms may not support all parameters directly in the URL in the same way.
+    // This is a simplified example. For full integration, you might need to consult
+    // each platform's developer documentation or mimic their search URL structure closely.
+    return `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}${params.toString()}`;
   };
 
   return (
@@ -86,7 +127,7 @@ const HotelBooking = () => {
                 className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Check-in</label>
               <DatePicker
@@ -96,7 +137,7 @@ const HotelBooking = () => {
                 minDate={new Date()}
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Check-out</label>
               <DatePicker
@@ -106,7 +147,7 @@ const HotelBooking = () => {
                 minDate={checkIn}
               />
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Adults</label>
@@ -130,7 +171,7 @@ const HotelBooking = () => {
                   </button>
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Children</label>
                 <div className="flex items-center border border-gray-300 rounded-lg">
@@ -159,9 +200,9 @@ const HotelBooking = () => {
 
         {/* Hotel Platforms */}
         <h2 className="text-2xl font-semibold text-gray-700 mb-6 text-center">
-          Book on Top Platforms
+          Search on Top Hotel Platforms
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {hotelPlatforms.map((platform) => (
             <a
               key={platform.name}
@@ -195,6 +236,55 @@ const HotelBooking = () => {
               </div>
             </a>
           ))}
+        </div>
+
+        {/* Rural Accommodations Section */}
+        <h2 className="text-2xl font-semibold text-gray-700 mb-6 text-center">
+          Exploring Rural Areas? Try These Options!
+        </h2>
+        <div className="bg-blue-50 rounded-xl p-6 mb-12 shadow-xl">
+          <p className="text-gray-700 text-lg mb-6 leading-relaxed">
+            In many beautiful rural parts of India, traditional hotels might be scarce. Instead, you'll find charming homestays, eco-friendly lodges, and unique guesthouses that offer an authentic local experience. These options often provide a deeper connection to the culture and nature of the region.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {ruralPlatforms.map((platform) => (
+              <a
+                key={platform.name}
+                href={generateBookingLink(platform)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden hover:-translate-y-1"
+              >
+                <div className="p-6">
+                  <div className="flex items-center mb-4">
+                    <img
+                      src={platform.logo}
+                      alt={platform.name}
+                      className="h-12 object-contain mr-4"
+                    />
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-800">
+                        {platform.name}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        {platform.description}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="bg-green-50 p-3 rounded-lg text-center">
+                    <span className="text-green-600 font-medium">Find Stays</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline-block ml-1 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+          <div className="mt-8 text-center text-gray-600">
+            <p className="font-semibold mb-2">Can't find what you're looking for?</p>
+            <p>Consider reaching out to local tourism offices or community-based tourism initiatives in the specific rural area you wish to visit. They often have unlisted gems!</p>
+          </div>
         </div>
 
         {/* Additional Information */}
@@ -233,371 +323,3 @@ const HotelBooking = () => {
 };
 
 export default HotelBooking;
-
-
-
-
-// import React, { useState, useEffect } from "react";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
-
-// const RuralTourismBooking = () => {
-//   const [checkIn, setCheckIn] = useState(new Date());
-//   const [checkOut, setCheckOut] = useState(() => {
-//     const date = new Date();
-//     date.setDate(date.getDate() + 2);
-//     return date;
-//   });
-//   const [location, setLocation] = useState("");
-//   const [guests, setGuests] = useState(2);
-//   const [experienceType, setExperienceType] = useState("all");
-//   const [suggestions, setSuggestions] = useState([]);
-//   const [showSuggestions, setShowSuggestions] = useState(false);
-
-//   // Rural destinations and experiences
-//   const ruralDestinations = [
-//     "Himachal Pradesh Villages",
-//     "Kerala Backwaters Homestays",
-//     "Rajasthan Desert Camps",
-//     "Sikkim Organic Farms",
-//     "Assam Tea Estates",
-//     "Goan Countryside",
-//     "Western Ghats Eco Lodges",
-//     "Ladakh Homestays",
-//     "Uttarakhand Mountain Villages",
-//     "Tamil Nadu Rural Heritage"
-//   ];
-
-//   const experienceTypes = [
-//     { id: "all", name: "All Experiences" },
-//     { id: "farm", name: "Farm Stays" },
-//     { id: "eco", name: "Eco Lodges" },
-//     { id: "homestay", name: "Village Homestays" },
-//     { id: "camping", name: "Rural Camping" },
-//     { id: "heritage", name: "Heritage Stays" }
-//   ];
-
-//   useEffect(() => {
-//     if (location.length > 1) {
-//       const filtered = ruralDestinations.filter(dest =>
-//         dest.toLowerCase().includes(location.toLowerCase())
-//       );
-//       setSuggestions(filtered);
-//       setShowSuggestions(true);
-//     } else {
-//       setShowSuggestions(false);
-//     }
-//   }, [location]);
-
-//   const incrementGuests = () => setGuests(prev => Math.min(prev + 1, 8));
-//   const decrementGuests = () => setGuests(prev => Math.max(prev - 1, 1));
-
-//   const ruralPlatforms = [
-//     {
-//       name: "Rural Odyssey",
-//       link: "https://www.ruralodyssey.com/",
-//       logo: "https://via.placeholder.com/32?text=RO",
-//       description: "Authentic village experiences across India",
-//       specializesIn: ["homestay", "farm"]
-//     },
-//     {
-//       name: "EcoStay",
-//       link: "https://www.ecostay.org/",
-//       logo: "https://via.placeholder.com/32?text=ES",
-//       description: "Sustainable rural accommodations",
-//       specializesIn: ["eco", "camping"]
-//     },
-//     {
-//       name: "FarmTrails",
-//       link: "https://www.farmtrails.in/",
-//       logo: "https://via.placeholder.com/32?text=FT",
-//       description: "Agricultural tourism and farm stays",
-//       specializesIn: ["farm"]
-//     },
-//     {
-//       name: "Village Ways",
-//       link: "https://www.villageways.com/",
-//       logo: "https://via.placeholder.com/32?text=VW",
-//       description: "Community-based rural tourism",
-//       specializesIn: ["homestay", "heritage"]
-//     },
-//     {
-//       name: "NatureHomes",
-//       link: "https://www.naturehomes.co/",
-//       logo: "https://via.placeholder.com/32?text=NH",
-//       description: "Eco-friendly rural retreats",
-//       specializesIn: ["eco", "camping"]
-//     },
-//     {
-//       name: "Rural Roots",
-//       link: "https://www.ruralroots.travel/",
-//       logo: "https://via.placeholder.com/32?text=RR",
-//       description: "Cultural immersion in rural India",
-//       specializesIn: ["heritage", "homestay"]
-//     }
-//   ];
-
-//   const filteredPlatforms = experienceType === "all" 
-//     ? ruralPlatforms 
-//     : ruralPlatforms.filter(platform => 
-//         platform.specializesIn.includes(experienceType)
-//       );
-
-//   const generateBookingLink = (platform) => {
-//     const baseUrl = platform.link;
-//     const params = new URLSearchParams();
-    
-//     if (location) params.append("destination", location);
-//     params.append("checkin", checkIn.toISOString().split('T')[0]);
-//     params.append("checkout", checkOut.toISOString().split('T')[0]);
-//     params.append("guests", guests);
-//     params.append("type", experienceType);
-    
-//     return `${baseUrl}?${params.toString()}`;
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-10 px-4 md:px-10">
-//       <div className="max-w-6xl mx-auto">
-//         <h1 className="text-4xl font-bold text-center text-green-800 mb-6">
-//           Discover Rural India
-//         </h1>
-//         <p className="text-lg text-center text-gray-600 mb-10">
-//           Book authentic village stays, farm experiences, and eco-retreats
-//         </p>
-
-//         {/* Search Form */}
-//         <div className="bg-white shadow-xl rounded-xl p-6 md:p-8 mb-12">
-//           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-//             <div className="relative">
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Rural Destination</label>
-//               <input
-//                 type="text"
-//                 placeholder="Village, region or experience"
-//                 value={location}
-//                 onChange={(e) => setLocation(e.target.value)}
-//                 onFocus={() => setShowSuggestions(true)}
-//                 className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
-//               />
-//               {showSuggestions && suggestions.length > 0 && (
-//                 <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
-//                   {suggestions.map((suggestion, index) => (
-//                     <li 
-//                       key={index}
-//                       className="p-2 hover:bg-green-50 cursor-pointer"
-//                       onClick={() => {
-//                         setLocation(suggestion);
-//                         setShowSuggestions(false);
-//                       }}
-//                     >
-//                       {suggestion}
-//                     </li>
-//                   ))}
-//                 </ul>
-//               )}
-//             </div>
-            
-//             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Check-in</label>
-//               <DatePicker
-//                 selected={checkIn}
-//                 onChange={(date) => setCheckIn(date)}
-//                 className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
-//                 minDate={new Date()}
-//               />
-//             </div>
-            
-//             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Check-out</label>
-//               <DatePicker
-//                 selected={checkOut}
-//                 onChange={(date) => setCheckOut(date)}
-//                 className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
-//                 minDate={checkIn}
-//               />
-//             </div>
-            
-//             <div className="grid grid-cols-2 gap-4">
-//               <div>
-//                 <label className="block text-sm font-medium text-gray-700 mb-1">Guests</label>
-//                 <div className="flex items-center border border-gray-300 rounded-lg">
-//                   <button
-//                     type="button"
-//                     onClick={decrementGuests}
-//                     className="px-3 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200"
-//                     disabled={guests <= 1}
-//                   >
-//                     -
-//                   </button>
-//                   <span className="flex-1 text-center">{guests}</span>
-//                   <button
-//                     type="button"
-//                     onClick={incrementGuests}
-//                     className="px-3 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200"
-//                     disabled={guests >= 8}
-//                   >
-//                     +
-//                   </button>
-//                 </div>
-//               </div>
-              
-//               <div>
-//                 <label className="block text-sm font-medium text-gray-700 mb-1">Experience</label>
-//                 <select
-//                   value={experienceType}
-//                   onChange={(e) => setExperienceType(e.target.value)}
-//                   className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
-//                 >
-//                   {experienceTypes.map(type => (
-//                     <option key={type.id} value={type.id}>{type.name}</option>
-//                   ))}
-//                 </select>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Rural Experience Platforms */}
-//         <div className="flex justify-between items-center mb-6">
-//           <h2 className="text-2xl font-semibold text-gray-700">
-//             Book Rural Experiences
-//           </h2>
-//           <div className="flex space-x-2 overflow-x-auto">
-//             {experienceTypes.map(type => (
-//               <button
-//                 key={type.id}
-//                 onClick={() => setExperienceType(type.id)}
-//                 className={`px-4 py-2 rounded-full text-sm whitespace-nowrap ${
-//                   experienceType === type.id 
-//                     ? 'bg-green-600 text-white' 
-//                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-//                 }`}
-//               >
-//                 {type.name}
-//               </button>
-//             ))}
-//           </div>
-//         </div>
-        
-//         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-//           {filteredPlatforms.map((platform) => (
-//             <a
-//               key={platform.name}
-//               href={generateBookingLink(platform)}
-//               target="_blank"
-//               rel="noopener noreferrer"
-//               className="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden hover:-translate-y-1 border border-green-100"
-//             >
-//               <div className="p-6">
-//                 <div className="flex items-center mb-4">
-//                   <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
-//                     <img
-//                       src={platform.logo}
-//                       alt={platform.name}
-//                       className="h-8 object-contain"
-//                     />
-//                   </div>
-//                   <div>
-//                     <h3 className="text-lg font-medium text-gray-800">
-//                       {platform.name}
-//                     </h3>
-//                     <p className="text-sm text-gray-500">
-//                       {platform.description}
-//                     </p>
-//                   </div>
-//                 </div>
-//                 <div className="mt-4 flex flex-wrap gap-2">
-//                   {platform.specializesIn.map(type => {
-//                     const typeInfo = experienceTypes.find(t => t.id === type);
-//                     return (
-//                       <span key={type} className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-//                         {typeInfo?.name || type}
-//                       </span>
-//                     );
-//                   })}
-//                 </div>
-//                 <div className="mt-4 bg-green-50 p-3 rounded-lg text-center hover:bg-green-100 transition">
-//                   <span className="text-green-700 font-medium">Explore Stays</span>
-//                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline-block ml-1 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-//                   </svg>
-//                 </div>
-//               </div>
-//             </a>
-//           ))}
-//         </div>
-
-//         {/* Additional Information */}
-//         <div className="mt-12 bg-green-50 rounded-xl p-6 border border-green-100">
-//           <h3 className="text-xl font-semibold text-green-800 mb-4">Why Choose Rural Tourism?</h3>
-//           <ul className="space-y-3 text-gray-700">
-//             <li className="flex items-start">
-//               <svg className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-//               </svg>
-//               <span><strong>Authentic Experiences:</strong> Immerse yourself in local cultures and traditions</span>
-//             </li>
-//             <li className="flex items-start">
-//               <svg className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-//               </svg>
-//               <span><strong>Sustainable Travel:</strong> Support local communities and eco-friendly practices</span>
-//             </li>
-//             <li className="flex items-start">
-//               <svg className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-//               </svg>
-//               <span><strong>Unique Activities:</strong> Farming, handicrafts, nature walks and more</span>
-//             </li>
-//             <li className="flex items-start">
-//               <svg className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-//               </svg>
-//               <span><strong>Peaceful Surroundings:</strong> Escape city noise and reconnect with nature</span>
-//             </li>
-//           </ul>
-          
-//           <div className="mt-6 pt-6 border-t border-green-200">
-//             <h4 className="font-medium text-green-800 mb-3">Travel Tips for Rural Stays:</h4>
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//               <div className="flex items-start">
-//                 <div className="bg-green-100 p-2 rounded-full mr-3">
-//                   <svg className="h-4 w-4 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-//                   </svg>
-//                 </div>
-//                 <span className="text-sm">Pack appropriate clothing for rural environments</span>
-//               </div>
-//               <div className="flex items-start">
-//                 <div className="bg-green-100 p-2 rounded-full mr-3">
-//                   <svg className="h-4 w-4 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-//                   </svg>
-//                 </div>
-//                 <span className="text-sm">Respect local customs and traditions</span>
-//               </div>
-//               <div className="flex items-start">
-//                 <div className="bg-green-100 p-2 rounded-full mr-3">
-//                   <svg className="h-4 w-4 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-//                   </svg>
-//                 </div>
-//                 <span className="text-sm">Be prepared for limited urban amenities</span>
-//               </div>
-//               <div className="flex items-start">
-//                 <div className="bg-green-100 p-2 rounded-full mr-3">
-//                   <svg className="h-4 w-4 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-//                   </svg>
-//                 </div>
-//                 <span className="text-sm">Carry cash as digital payments may be limited</span>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default RuralTourismBooking;

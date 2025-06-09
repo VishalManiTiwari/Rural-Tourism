@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const Category = ({ onFilterChange }) => {
   // Define the core categories and their options
   const allCategories = [
-    
     {
       name: "Heritage",
       icon: "🏛️",
@@ -15,7 +14,6 @@ const Category = ({ onFilterChange }) => {
         "Archeological Sites"
       ]
     },
-    
     {
       name: "Gastronomy",
       icon: "🍽️",
@@ -25,10 +23,9 @@ const Category = ({ onFilterChange }) => {
         "Beverages",
         "Farm to Table",
         "Spices",
-        "Local Cuisine" 
+        "Local Cuisine"
       ]
     },
-    
     {
       name: "Arts",
       icon: "🎨",
@@ -38,35 +35,35 @@ const Category = ({ onFilterChange }) => {
         "Painting",
         "Literature",
         "Theatre",
-        "Crafts", 
+        "Crafts",
         "Workshops",
         "Cultural Performances"
       ]
     },
     {
-      name: "Rural", 
+      name: "Rural",
       icon: "🏡",
       options: [
         "Agro-Tourism",
         "Crafts-Tourism",
         "Tribal-Tourism",
         "Eco-Tourism",
-        "Wildlife-Tourism", // Can overlap with 'Wildlife' category but specific to rural context
+        "Wildlife-Tourism",
         "Live Like a Local",
-        "Orchard Visits", // Added from Treasure component's activities
+        "Orchard Visits",
         "Agri-tourism",
         "Village Visits",
-        "Heritage Exploration" // Specific to rural heritage
+        "Heritage Exploration"
       ]
     },
-    
   ];
 
   // State for category search term
   const [categorySearchTerm, setCategorySearchTerm] = useState('');
-  // State to hold the currently selected options across all categories
-  // Format: { categoryName: ['option1', 'option2'], ... }
+  // State to hold the currently selected options across all categories (local state)
   const [selectedOptions, setSelectedOptions] = useState({});
+  // State to hold the applied filters, which will be passed to the parent (global state)
+  const [appliedFilters, setAppliedFilters] = useState({});
 
   // Filter categories based on search term
   const filteredCategories = allCategories.filter(category =>
@@ -104,22 +101,34 @@ const Category = ({ onFilterChange }) => {
     });
   };
 
-  // Function to clear all selected filters
-  const clearAllFilters = () => {
+  // Function to apply the selected filters
+  const applyFilters = useCallback(() => {
+    setAppliedFilters(selectedOptions);
+    // Flatten the selected options into a single array for easier consumption by parent
+    const activeFilters = Object.entries(selectedOptions)
+      .flatMap(([category, options]) => options.map(option => ({ category, option })))
+      .filter(filter => filter.option); // Ensure option is not undefined/null
+    onFilterChange(activeFilters);
+  }, [selectedOptions, onFilterChange]);
+
+  // Function to clear all selected filters and applied filters
+  const resetFilters = () => {
     setSelectedOptions({});
+    setAppliedFilters({});
     setCategorySearchTerm('');
+    onFilterChange([]); // Notify parent that all filters are cleared
   };
 
-  // Effect to call parent's onFilterChange prop whenever selectedOptions changes
+  // Effect to apply filters initially if there are any pre-selected options
+  // or when the component mounts with existing filter states
   useEffect(() => {
-    if (onFilterChange) {
-      // Flatten the selected options into a single array for easier consumption by parent
-      const activeFilters = Object.entries(selectedOptions)
-        .flatMap(([category, options]) => options.map(option => ({ category, option })))
-        .filter(filter => filter.option !== `All ${filter.category}`); // Exclude "All X" options if they were mistakenly selected
-      onFilterChange(activeFilters);
-    }
-  }, [selectedOptions, onFilterChange]);
+    // This useEffect will now only trigger `applyFilters` when `appliedFilters` changes,
+    // which is controlled by the "Apply Filters" button.
+    // To ensure initial state is reflected, we call `applyFilters` on mount if needed,
+    // or let the user explicitly click 'Apply Filters'.
+    // If you want initial state to immediately reflect, consider calling `applyFilters`
+    // here if `selectedOptions` has initial values from props or a persistent state.
+  }, [appliedFilters]); // This dependency array ensures `applyFilters` is stable
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen">
@@ -127,7 +136,7 @@ const Category = ({ onFilterChange }) => {
         Explore Travel Categories
       </h1>
 
-      {/* Global Controls: Search & Clear All */}
+      {/* Global Controls: Search, Apply & Reset */}
       <div className="flex flex-col md:flex-row justify-center items-center mb-8 gap-4 px-4">
         <input
           type="text"
@@ -137,10 +146,16 @@ const Category = ({ onFilterChange }) => {
           onChange={(e) => setCategorySearchTerm(e.target.value)}
         />
         <button
-          onClick={clearAllFilters}
+          onClick={applyFilters}
+          className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Apply Filters
+        </button>
+        <button
+          onClick={resetFilters}
           className="px-6 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
-          Clear All Filters
+          Reset Filters
         </button>
       </div>
 
@@ -197,7 +212,7 @@ const Category = ({ onFilterChange }) => {
                   ))}
                 </div>
                 {category.options.length === 0 && (
-                    <p className="text-gray-500 italic mt-2">No specific options available for this category.</p>
+                  <p className="text-gray-500 italic mt-2">No specific options available for this category.</p>
                 )}
               </div>
             </div>

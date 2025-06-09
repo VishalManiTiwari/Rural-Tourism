@@ -15,7 +15,7 @@ const regionData = [
       "Uttar Pradesh",
     ],
     image:
-      "",
+      "https://media.istockphoto.com/id/1154057848/photo/north-korea-countryside-scenery.jpg?s=170667a&w=0&k=20&c=7wKfbLou3t2bsgQBkWOXDMwEsA-sLI8xoETnJWiuLNE=",
   },
   {
     region: "North East",
@@ -30,7 +30,7 @@ const regionData = [
       "Tripura",
     ],
     image:
-      "https://images.unsplash.com/photo-1593696954577-ab3d39317b97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "https://media.springernature.com/lw685/springer-static/image/chp%3A10.1007%2F978-94-007-7055-3_14/MediaObjects/306083_1_En_14_Fig3_HTML.jpg",
   },
   {
     region: "East",
@@ -42,13 +42,13 @@ const regionData = [
       "West Bengal",
     ],
     image:
-      "https://images.unsplash.com/photo-1583417319070-4a69db38a482?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "https://janinesjourneys.com/wp-content/uploads/2019/02/person-690245_1920-1920x1277.jpg",
   },
   {
     region: "Central",
     states: ["Chhattisgarh", "Madhya Pradesh"],
     image:
-      "https://s7ap1.scene7.com/is/image/incredibleindia/narmada-ghat-madhya-pradesh-tri-hero?qlt=82&ts=1727164598025&wid=800",
+      "https://thumbs.dreamstime.com/b/rural-india-majority-its-over-billion-citizens-still-living-small-villages-life-remains-central-to-india%C3%A2%E2%82%AC%E2%84%A2s-identity-61026432.jpg",
   },
   {
     region: "West",
@@ -59,7 +59,7 @@ const regionData = [
       "Maharashtra",
     ],
     image:
-      "https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "https://www.villagesquare.in/wp-content/uploads/2022/05/8-2.jpg",
   },
   {
     region: "South",
